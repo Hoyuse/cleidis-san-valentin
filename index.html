@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¿Quieres ser mi San Valentín?</title>
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Pantalla principal */
+.container {
+    text-align: center;
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    position: relative;
+    width: 90%;
+    max-width: 400px;
+    height: 320px;
+}
+
+h1 {
+    color: #e91e63;
+}
+
+button {
+    padding: 12px 25px;
+    font-size: 18px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    position: absolute;
+    transition: 0.2s;
+}
+
+#yesBtn {
+    background-color: #4CAF50;
+    color: white;
+    left: 20%;
+    top: 70%;
+}
+
+#noBtn {
+    background-color: #f44336;
+    color: white;
+    left: 55%;
+    top: 70%;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Pantalla final */
+#loveScreen {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+#loveScreen h1 {
+    font-size: 26px;
+    margin-bottom: 10px;
+}
+
+#loveScreen p {
+    font-size: 18px;
+    max-width: 320px;
+    color: #444;
+}
+
+/* Corazón grande */
+.heart {
+    width: 120px;
+    height: 110px;
+    position: relative;
+    margin-top: 30px;
+    animation: latido 1s infinite;
+}
+
+.heart::before,
+.heart::after {
+    content: "";
+    position: absolute;
+    width: 120px;
+    height: 180px;
+    background: red;
+    border-radius: 60px 60px 0 0;
+}
+
+.heart::before {
+    left: 60px;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+}
+
+.heart::after {
+    left: 0;
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
+}
+
+/* Corazones flotando */
+.floating-heart {
+    position: absolute;
+    color: rgba(255,0,100,0.7);
+    animation: floatUp 4s linear infinite;
+}
+
+@keyframes latido {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes floatUp {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-600px);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="questionScreen">
+    <h1>Cleidis 💕</h1>
+    <p style="font-size:18px; color:#555;">
+        Desde que llegaste a mi vida todo es más bonito ✨
+    </p>
+    <h2 style="color:#e91e63;">¿Quieres ser mi San Valentín? 💘</h2>
+    <button id="yesBtn">Sí 💖</button>
+    <button id="noBtn">No 😢</button>
+</div>
+
+<div class="container hidden" id="loveScreen">
+    <h1>Cleidis ❤️</h1>
+    <p>
+        No sabes lo feliz que me haces.  
+        Eres una persona increíble, especial y única.  
+        Prometo llenarte de momentos hermosos,  
+        risas sinceras y abrazos interminables.  
+        Gracias por decir que sí, mi niña preciosa 💕
+    </p>
+    <div class="heart"></div>
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const questionScreen = document.getElementById("questionScreen");
+const loveScreen = document.getElementById("loveScreen");
+
+function moverBoton() {
+    const container = questionScreen.getBoundingClientRect();
+    const maxX = container.width - noBtn.offsetWidth;
+    const maxY = container.height - noBtn.offsetHeight;
+
+    const randomX = Math.floor(Math.random() * maxX);
+    const randomY = Math.floor(Math.random() * maxY);
+
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
+}
+
+noBtn.addEventListener("mouseover", moverBoton);
+
+noBtn.addEventListener("touchstart", function(e) {
+    e.preventDefault();
+    moverBoton();
+});
+
+yesBtn.addEventListener("click", function() {
+    questionScreen.style.display = "none";
+    loveScreen.style.display = "flex";
+    lanzarCorazones();
+});
+
+function lanzarCorazones() {
+    setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("floating-heart");
+        heart.innerHTML = "💖";
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.top = window.innerHeight + "px";
+        heart.style.fontSize = (Math.random() * 25 + 15) + "px";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 4000);
+    }, 300);
+}
+</script>
+
+</body>
+</html>
